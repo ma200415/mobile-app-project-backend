@@ -3,37 +3,37 @@ var router = express.Router();
 
 const dbMongo = require('../helpers/mongodb');
 
-const SignUpUser = require('../helpers/signUpUserModel')
+const SignupUser = require('../helpers/SignupUserModel')
 const ResponseFail = require('../helpers/responseFailModel')
 
 const auth = require('../services/auth')
 
 router.post('/', async function (req, res, next) {
-    const signUpUser = new SignUpUser()
+    const signupUser = new SignupUser()
     let responseFail
 
     try {
         //general info
-        signUpUser.lastName = req.body.lastName;
-        signUpUser.firstName = req.body.firstName;
-        signUpUser.email = req.body.email;
-        signUpUser.password = await dbMongo.hash(req.body.password);
-        signUpUser.createTimestamp = new Date()
+        signupUser.lastName = req.body.lastName;
+        signupUser.firstName = req.body.firstName;
+        signupUser.email = req.body.email;
+        signupUser.password = await dbMongo.hash(req.body.password);
+        signupUser.createTimestamp = new Date()
 
         switch (req.body.code) {
             case auth.adminCode():
-                signUpUser.admin = true;
-                signUpUser.role = "employee"
+                signupUser.admin = true;
+                signupUser.role = "employee"
                 break;
             case auth.employeeCode():
-                signUpUser.role = "employee"
+                signupUser.role = "employee"
                 break;
             default: //public
-                signUpUser.role = "public"
+                signupUser.role = "public"
                 break;
         }
 
-        for (const [key, value] of Object.entries(signUpUser)) {
+        for (const [key, value] of Object.entries(signupUser)) {
             if (key != "admin" && (!value || String(value).trim() == '')) {
                 responseFail = new ResponseFail(key, `${key.toUpperCase()} is missing`)
 
@@ -43,7 +43,7 @@ router.post('/', async function (req, res, next) {
             }
         }
 
-        const findExistsUser = await dbMongo.findOne('user', { email: signUpUser.email });
+        const findExistsUser = await dbMongo.findOne('user', { email: signupUser.email });
 
         if (findExistsUser) {
             responseFail = new ResponseFail("email", 'Email already exists')
@@ -51,9 +51,9 @@ router.post('/', async function (req, res, next) {
             res.status(200).end(responseFail.json());
             return
         } else {
-            const result = await dbMongo.insertOne('user', signUpUser);
+            const result = await dbMongo.insertOne('user', signupUser);
 
-            res.status(200).end(JSON.stringify({ success: result.success, message: (result.success ? `Welcome ${signUpUser.firstName} ${signUpUser.lastName}!` : result.message) }));
+            res.status(200).end(JSON.stringify({ success: result.success, message: (result.success ? `Welcome ${signupUser.firstName} ${signupUser.lastName}!` : result.message) }));
             return
         }
     } catch (err) {

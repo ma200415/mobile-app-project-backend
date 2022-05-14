@@ -3,20 +3,20 @@ var router = express.Router();
 
 const dbMongo = require('../helpers/mongodb')
 
-const SignInUser = require('../helpers/signInUserModel')
+const SigninUser = require('../helpers/signinUserModel')
 const ResponseFail = require('../helpers/responseFailModel')
 
 const auth = require('../services/auth')
 
 router.post('/', async function (req, res, next) {
-  const signInUser = new SignInUser()
+  const signinUser = new SigninUser()
   let responseFail
 
   try {
-    signInUser.email = req.body.email
-    signInUser.password = req.body.password
+    signinUser.email = req.body.email
+    signinUser.password = req.body.password
 
-    for (const [key, value] of Object.entries(signInUser)) {
+    for (const [key, value] of Object.entries(signinUser)) {
       if (!value || value.trim() == '') {
         responseFail = new ResponseFail(key, `${key.toUpperCase()} is empty`)
 
@@ -26,12 +26,12 @@ router.post('/', async function (req, res, next) {
       }
     }
 
-    const result = await dbMongo.find('user', { email: signInUser.email });
+    const result = await dbMongo.find('user', { email: signinUser.email });
 
     if (result.length > 0) {
       const firstMatch = result[0]
 
-      const isMatch = await dbMongo.comparePassword(signInUser.password, firstMatch.password);
+      const isMatch = await dbMongo.comparePassword(signinUser.password, firstMatch.password);
 
       if (isMatch) {
         const userPayload = firstMatch

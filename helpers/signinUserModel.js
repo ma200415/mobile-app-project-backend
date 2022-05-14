@@ -1,6 +1,6 @@
-class SignInUser {
+class SigninUser {
     email = ""
     password = ""
 };
 
-module.exports = SignInUser;
+module.exports = SigninUser;

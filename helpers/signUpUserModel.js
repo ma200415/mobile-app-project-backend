@@ -1,4 +1,4 @@
-class SignUpUser {
+class SignupUser {
     lastName
     firstName
     email
@@ -7,4 +7,4 @@ class SignUpUser {
     role
 };
 
-module.exports = SignUpUser;
+module.exports = SignupUser;
