@@ -9,7 +9,7 @@ router.post('/', async function (req, res, next) {
     if (userPayload.success) {
         res.status(200).end(JSON.stringify(userPayload.user));
     } else {
-        res.status(400).end(JSON.stringify(userPayload));
+        res.status(200).end(JSON.stringify(userPayload));
     }
 
     return

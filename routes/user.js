@@ -35,7 +35,7 @@ router.post('/bookmark', async (req, res, next) => {
     const userPayload = auth.getBearerTokenPayload(req)
 
     if (!userPayload.success) {
-      res.status(400).end(JSON.stringify(userPayload));
+      res.status(200).end(JSON.stringify(userPayload));
       return
     }
 
@@ -62,7 +62,7 @@ router.post('/unbookmark', async (req, res, next) => {
     const userPayload = auth.getBearerTokenPayload(req)
 
     if (!userPayload.success) {
-      res.status(400).end(JSON.stringify(userPayload));
+      res.status(200).end(JSON.stringify(userPayload));
       return
     }
 

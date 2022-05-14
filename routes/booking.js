@@ -18,7 +18,7 @@ router.get('/', async function (req, res) {
         const userPayload = auth.getBearerTokenPayload(req)
 
         if (!userPayload.success) {
-            res.status(400).end(JSON.stringify(userPayload));
+            res.status(200).end(JSON.stringify(userPayload));
             return
         }
 
@@ -67,7 +67,7 @@ router.post('/new', async function (req, res) {
         const userPayload = auth.getBearerTokenPayload(req)
 
         if (!userPayload.success) {
-            res.status(400).end(JSON.stringify(userPayload));
+            res.status(200).end(JSON.stringify(userPayload));
             return
         }
 
@@ -77,7 +77,7 @@ router.post('/new', async function (req, res) {
             if (key != "remark" && (!value || String(value).trim() == '')) {
                 responseFail = new ResponseFail(key, `${key.toUpperCase()} is empty`)
 
-                res.status(400).end(responseFail.json());
+                res.status(200).end(responseFail.json());
 
                 return;
             }

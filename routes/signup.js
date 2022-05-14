@@ -37,7 +37,7 @@ router.post('/', async function (req, res, next) {
             if (key != "admin" && (!value || String(value).trim() == '')) {
                 responseFail = new ResponseFail(key, `${key.toUpperCase()} is missing`)
 
-                res.status(400).end(responseFail.json());
+                res.status(200).end(responseFail.json());
 
                 return;
             }

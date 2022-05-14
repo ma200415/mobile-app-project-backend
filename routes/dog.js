@@ -51,10 +51,10 @@ router.post('/add', async function (req, res, next) {
         const userPayload = auth.getBearerTokenPayload(req)
 
         if (!userPayload.success) {
-            res.status(400).end(JSON.stringify(userPayload));
+            res.status(200).end(JSON.stringify(userPayload));
             return
         } else if (userPayload.user.payload.role !== "employee") {
-            res.status(400).end(JSON.stringify({ message: "You do not have permission to action" }));
+            res.status(200).end(JSON.stringify({ message: "You do not have permission to action" }));
             return
         }
 
@@ -64,7 +64,7 @@ router.post('/add', async function (req, res, next) {
             if (fields.name == null || String(fields.name).trim() == "") {
                 responseFail = new ResponseFail("name", "Required*")
 
-                res.status(400).end(responseFail.json());
+                res.status(200).end(responseFail.json());
             } else {
                 const dog = new Dog()
 
@@ -81,7 +81,7 @@ router.post('/add', async function (req, res, next) {
                         default:
                             responseFail = new ResponseFail("error", "Upload file type is not supported")
 
-                            res.status(400).end(responseFail.json());
+                            res.status(200).end(responseFail.json());
 
                             break;
                     }
@@ -118,10 +118,10 @@ router.post('/edit', async function (req, res, next) {
         const userPayload = auth.getBearerTokenPayload(req)
 
         if (!userPayload.success) {
-            res.status(400).end(JSON.stringify(userPayload));
+            res.status(200).end(JSON.stringify(userPayload));
             return
         } else if (userPayload.user.payload.role !== "employee") {
-            res.status(400).end(JSON.stringify({ message: "You do not have permission to action" }));
+            res.status(200).end(JSON.stringify({ message: "You do not have permission to action" }));
             return
         }
 
@@ -143,7 +143,7 @@ router.post('/edit', async function (req, res, next) {
                     default:
                         responseFail = new ResponseFail("error", "Upload file type is not supported")
 
-                        res.status(400).end(responseFail.json());
+                        res.status(200).end(responseFail.json());
 
                         break;
                 }
@@ -184,10 +184,10 @@ router.post('/delete', async function (req, res, next) {
         const userPayload = auth.getBearerTokenPayload(req)
 
         if (!userPayload.success) {
-            res.status(400).end(JSON.stringify(userPayload));
+            res.status(200).end(JSON.stringify(userPayload));
             return
         } else if (userPayload.user.payload.role !== "employee") {
-            res.status(400).end(JSON.stringify({ message: "You do not have permission to action" }));
+            res.status(200).end(JSON.stringify({ message: "You do not have permission to action" }));
             return
         }
 

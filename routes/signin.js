@@ -20,7 +20,7 @@ router.post('/', async function (req, res, next) {
       if (!value || value.trim() == '') {
         responseFail = new ResponseFail(key, `${key.toUpperCase()} is empty`)
 
-        res.status(400).end(responseFail.json());
+        res.status(200).end(responseFail.json());
 
         return;
       }
@@ -54,13 +54,15 @@ router.post('/', async function (req, res, next) {
     } else {
       responseFail = new ResponseFail("email", 'User not found')
     }
+
+    res.status(200).end(responseFail.json());
+    return
   } catch (err) {
     responseFail = new ResponseFail("error", String(err))
+
+    res.status(400).end(responseFail.json());
+    return
   }
-
-  res.status(400).end(responseFail.json());
-
-  return
 });
 
 module.exports = router;

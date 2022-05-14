@@ -18,7 +18,7 @@ router.get('/', async function (req, res) {
         const userPayload = auth.getBearerTokenPayload(req)
 
         if (!userPayload.success) {
-            res.status(400).end(JSON.stringify(userPayload));
+            res.status(200).end(JSON.stringify(userPayload));
             return
         }
 
@@ -34,7 +34,7 @@ router.get('/', async function (req, res) {
                 res.status(200).end(JSON.stringify(result));
                 break;
             default:
-                res.status(400).end(JSON.stringify({ message: "undefined role" }));
+                res.status(200).end(JSON.stringify({ message: "undefined role" }));
                 break;
         }
 
@@ -55,7 +55,7 @@ router.post('/id', async (req, res, next) => {
         const userPayload = auth.getBearerTokenPayload(req)
 
         if (!userPayload.success) {
-            res.status(400).end(JSON.stringify(userPayload));
+            res.status(200).end(JSON.stringify(userPayload));
             return
         }
 
@@ -82,7 +82,7 @@ router.post('/add', async function (req, res, next) {
         const userPayload = auth.getBearerTokenPayload(req)
 
         if (!userPayload.success) {
-            res.status(400).end(JSON.stringify(userPayload));
+            res.status(200).end(JSON.stringify(userPayload));
             return
         }
 
@@ -112,7 +112,7 @@ router.post('/append', async function (req, res, next) {
         const userPayload = auth.getBearerTokenPayload(req)
 
         if (!userPayload.success) {
-            res.status(400).end(JSON.stringify(userPayload));
+            res.status(200).end(JSON.stringify(userPayload));
             return
         }
 
@@ -161,12 +161,12 @@ router.post('/delete', async function (req, res, next) {
         const userPayload = auth.getBearerTokenPayload(req)
 
         if (!userPayload.success) {
-            res.status(400).end(JSON.stringify(userPayload));
+            res.status(200).end(JSON.stringify(userPayload));
             return
         }
 
         if (userPayload.user.payload.role !== "employee") {
-            res.status(400).end(JSON.stringify({ message: "You do not have permission to action" }));
+            res.status(200).end(JSON.stringify({ message: "You do not have permission to action" }));
             return
         }
 
