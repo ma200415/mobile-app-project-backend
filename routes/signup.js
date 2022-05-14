@@ -3,7 +3,7 @@ var router = express.Router();
 
 const dbMongo = require('../helpers/mongodb');
 
-const SignupUser = require('../helpers/SignupUserModel')
+const SignupUser = require('../helpers/signupUserModel')
 const ResponseFail = require('../helpers/responseFailModel')
 
 const auth = require('../services/auth')
