@@ -12,7 +12,7 @@ const ResponseFail = require('../helpers/responseFailModel')
 
 const auth = require('../services/auth')
 
-const doc = "dog"
+const doc = "craft"
 
 router.post('/', async function (req, res, next) {
     let responseFail
@@ -58,48 +58,50 @@ router.post('/add', async function (req, res, next) {
             return
         }
 
-        const form = new formidable.IncomingForm();
+        const dog = new Dog()
 
-        form.parse(req, async (err, fields, files) => {
-            if (fields.name == null || String(fields.name).trim() == "") {
-                responseFail = new ResponseFail("name", "Required*")
+        dog.store = req.body.store
+        dog.date = req.body.date
+        dog.remark = req.body.remark
+        dog.addBy = userPayload.user.payload._id
+        dog.addTimestamp = new Date()
 
-                res.status(200).end(responseFail.json());
-            } else {
-                const dog = new Dog()
+        if (dog.store == null || String(dog.store).trim() == "") {
+            responseFail = new ResponseFail("store", "Required*")
 
-                const uploadPhoto = files.photo;
+            res.status(200).end(responseFail.json());
+        } else {
+            // const dog = new Dog()
 
-                if (uploadPhoto.size > 0) {
-                    switch (uploadPhoto.mimetype) {
-                        case "image/jpeg":
-                        case "image/png":
-                            const buffer = fs.readFileSync(uploadPhoto.filepath)
+            // const uploadPhoto = files.photo;
 
-                            dog.photo = new Buffer.from(buffer).toString('base64')
-                            break;
-                        default:
-                            responseFail = new ResponseFail("error", "Upload file type is not supported")
+            // if (uploadPhoto.size > 0) {
+            //     switch (uploadPhoto.mimetype) {
+            //         case "image/jpeg":
+            //         case "image/png":
+            //             const buffer = fs.readFileSync(uploadPhoto.filepath)
 
-                            res.status(200).end(responseFail.json());
+            //             dog.photo = new Buffer.from(buffer).toString('base64')
+            //             break;
+            //         default:
+            //             responseFail = new ResponseFail("error", "Upload file type is not supported")
 
-                            break;
-                    }
-                }
+            //             res.status(200).end(responseFail.json());
 
-                dog.name = fields.name
-                dog.breed = fields.breed
-                dog.birthday = fields.birthday
-                dog.gender = fields.gender
-                dog.location = fields.location
-                dog.addBy = userPayload.user.payload._id
-                dog.addTimestamp = new Date()
+            //             break;
+            //     }
+            // }
 
-                const result = await dbMongo.insertOne(doc, dog);
+            // dog.store = fields.store
+            // dog.date = fields.date
+            // dog.remark = fields.remark
+            // dog.addBy = userPayload.user.payload._id
+            // dog.addTimestamp = new Date()
 
-                res.status(200).end(JSON.stringify({ success: result.success, message: result.message }));
-            }
-        });
+            const result = await dbMongo.insertOne(doc, dog);
+
+            res.status(200).end(JSON.stringify({ success: result.success, message: result.message }));
+        }
     } catch (err) {
         console.log("/dog/add", err)
 
