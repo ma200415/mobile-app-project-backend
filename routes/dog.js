@@ -60,14 +60,15 @@ router.post('/add', async function (req, res, next) {
 
         const dog = new Dog()
 
+        dog.name = req.body.name
         dog.store = req.body.store
         dog.date = req.body.date
-        dog.remark = req.body.remark
+        dog.description = req.body.description
         dog.addBy = userPayload.user.payload._id
         dog.addTimestamp = new Date()
 
-        if (dog.store == null || String(dog.store).trim() == "") {
-            responseFail = new ResponseFail("store", "Required*")
+        if (dog.name == null || String(dog.name).trim() == "") {
+            responseFail = new ResponseFail("name", "Required*")
 
             res.status(200).end(responseFail.json());
         } else {

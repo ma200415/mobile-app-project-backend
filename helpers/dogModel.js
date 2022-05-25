@@ -7,7 +7,7 @@ class Dog {
     location
 
     store
-    remark
+    description
     date
 }
 
