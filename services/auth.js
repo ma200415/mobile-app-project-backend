@@ -6,7 +6,7 @@ exports.adminCode = () => "thisisthecodeforadmin"
 exports.employeeCode = () => "thisisthecodeforemployee"
 
 exports.genAuthToken = (payload = {}) => {
-    return jwt.sign(payload, privateKey, { expiresIn: '7d' })
+    return jwt.sign(payload, privateKey, { expiresIn: '1m' })
 }
 
 exports.verifyAuthToken = (token) => {

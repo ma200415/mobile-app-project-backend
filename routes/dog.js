@@ -61,37 +61,18 @@ router.post('/add', async function (req, res, next) {
         const dog = new Dog()
 
         dog.name = req.body.name
-        dog.store = req.body.store
-        dog.date = req.body.date
-        dog.description = req.body.description
-        dog.addBy = userPayload.user.payload._id
-        dog.addTimestamp = new Date()
 
         if (dog.name == null || String(dog.name).trim() == "") {
             responseFail = new ResponseFail("name", "Required*")
 
             res.status(200).end(responseFail.json());
         } else {
-            // const dog = new Dog()
-
-            // const uploadPhoto = files.photo;
-
-            // if (uploadPhoto.size > 0) {
-            //     switch (uploadPhoto.mimetype) {
-            //         case "image/jpeg":
-            //         case "image/png":
-            //             const buffer = fs.readFileSync(uploadPhoto.filepath)
-
-            //             dog.photo = new Buffer.from(buffer).toString('base64')
-            //             break;
-            //         default:
-            //             responseFail = new ResponseFail("error", "Upload file type is not supported")
-
-            //             res.status(200).end(responseFail.json());
-
-            //             break;
-            //     }
-            // }      
+            dog.store = req.body.store
+            dog.date = req.body.date
+            dog.description = req.body.description
+            dog.photo = req.body.photo
+            dog.addBy = userPayload.user.payload._id
+            dog.addTimestamp = new Date()
 
             const result = await dbMongo.insertOne(doc, dog);
 
@@ -123,32 +104,11 @@ router.post('/edit', async function (req, res, next) {
         }
 
         const dog = new Dog()
-
-        // const uploadPhoto = files.photo;
-
-        // if (uploadPhoto.size > 0) {
-        //     switch (uploadPhoto.mimetype) {
-        //         case "image/jpeg":
-        //         case "image/png":
-        //             const buffer = fs.readFileSync(uploadPhoto.filepath)
-
-        //             dog.photo = new Buffer.from(buffer).toString('base64')
-        //             break;
-        //         default:
-        //             responseFail = new ResponseFail("error", "Upload file type is not supported")
-
-        //             res.status(200).end(responseFail.json());
-
-        //             break;
-        //     }
-        // } else {
-        //     dog.photo = fields.photo != null && String(fields.photo).trim() != "" && String(fields.photo) != "null" ? fields.photo : null
-        // }
-console.log(req.body)
         dog.name = req.body.name
         dog.store = req.body.store
         dog.date = req.body.date
         dog.description = req.body.description
+        dog.photo = req.body.photo
         dog.editBy = userPayload.user.payload._id
         dog.editTimestamp = new Date()
 
