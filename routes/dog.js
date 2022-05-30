@@ -141,7 +141,7 @@ router.post('/delete', async function (req, res, next) {
             return
         }
 
-        const result = await dbMongo.deleteOne(doc, req.body.dogId);
+        const result = await dbMongo.deleteOne(doc, req.body.craftId);
 
         res.status(200).end(JSON.stringify({ success: result.success, message: result.message }));
 
