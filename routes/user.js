@@ -39,7 +39,7 @@ router.post('/bookmark', async (req, res, next) => {
       return
     }
 
-    const result = await dbMongo.addToSet(doc, userPayload.user.payload._id, { bookmarks: req.body.dogId });
+    const result = await dbMongo.addToSet(doc, userPayload.user.payload._id, { bookmarks: req.body.craftId });
 
     res.status(200).end(JSON.stringify({ success: result.success, message: result.message }));
 
@@ -66,7 +66,7 @@ router.post('/unbookmark', async (req, res, next) => {
       return
     }
 
-    const result = await dbMongo.pullFromSet(doc, userPayload.user.payload._id, { bookmarks: req.body.dogId });
+    const result = await dbMongo.pullFromSet(doc, userPayload.user.payload._id, { bookmarks: req.body.craftId });
 
     res.status(200).end(JSON.stringify({ success: result.success, message: result.message }));
 
