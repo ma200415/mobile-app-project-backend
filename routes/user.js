@@ -82,4 +82,34 @@ router.post('/unbookmark', async (req, res, next) => {
   }
 });
 
+router.post('/all', async (req, res, next) => {
+  let responseFail
+
+  try {
+    const userPayload = auth.getBearerTokenPayload(req)
+
+    if (!userPayload.success) {
+      res.status(200).end(JSON.stringify(userPayload));
+      return
+    } else if (!userPayload.user.payload.admin) {
+      res.status(200).end(JSON.stringify({ message: "You do not have permission" }));
+      return
+    }
+
+    const result = await dbMongo.find(doc, {});
+
+    res.status(200).end(JSON.stringify(result));
+
+    return
+  } catch (err) {
+    console.log("/user/all", err)
+
+    responseFail = new ResponseFail("error", String(err))
+
+    res.status(400).end(responseFail.json());
+
+    return
+  }
+});
+
 module.exports = router;
