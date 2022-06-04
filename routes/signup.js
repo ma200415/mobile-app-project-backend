@@ -18,6 +18,7 @@ router.post('/', async function (req, res, next) {
         signupUser.firstName = req.body.firstName;
         signupUser.email = req.body.email;
         signupUser.password = await dbMongo.hash(req.body.password);
+        signupUser.bookmarks = [];
         signupUser.createTimestamp = new Date()
 
         switch (req.body.code) {
@@ -34,7 +35,7 @@ router.post('/', async function (req, res, next) {
         }
 
         for (const [key, value] of Object.entries(signupUser)) {
-            if (key != "admin" && (!value || String(value).trim() == '')) {
+            if (key != "admin" && key != "bookmarks" && (!value || String(value).trim() == '')) {
                 responseFail = new ResponseFail(key, `${key.toUpperCase()} is missing`)
 
                 res.status(200).end(responseFail.json());

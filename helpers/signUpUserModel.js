@@ -5,6 +5,7 @@ class SignupUser {
     password
     admin = false
     role
+    bookmarks
 };
 
 module.exports = SignupUser;
