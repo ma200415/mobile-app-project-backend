@@ -159,7 +159,11 @@ router.post('/delete', async function (req, res, next) {
 
 router.post('/id', async function (req, res, next) {
     try {
-        const result = await dbMongo.findOne(doc, { _id: ObjectId(req.body.id) });
+        let result = await dbMongo.findOne(doc, { _id: ObjectId(req.body.id) });
+
+        if (result == null) {
+            result = {}
+        }
 
         res.status(200).end(JSON.stringify(result));
 
