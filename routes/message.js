@@ -197,4 +197,54 @@ router.post('/delete', async function (req, res, next) {
     }
 });
 
+router.post('/addnew', async function (req, res, next) {
+    let responseFail
+
+    try {
+        const userPayload = auth.getBearerTokenPayload(req)
+
+        if (!userPayload.success) {
+            res.status(200).end(JSON.stringify(userPayload));
+            return
+        }
+
+        const findResult = await dbMongo.findOne(doc, { _id: ObjectId(req.body.messageId) });
+
+        const now = new Date()
+
+        const message = {
+            message: req.body.message,
+            userId: userPayload.user.payload._id,
+            createTimestamp: now
+        }
+
+        let result
+
+        if (findResult == null) {
+            message.craftId = req.body.craftId
+            message.replys = []
+
+            result = await dbMongo.insertOne(doc, message);
+        } else {
+            result = await dbMongo.addToSet(doc, req.body.messageId, { replys: message });
+        }
+
+        result.message = req.body.message
+        result.userId = userPayload.user.payload._id
+        result.createTimestamp = now
+
+        res.status(200).end(JSON.stringify(result));
+
+        return
+    } catch (err) {
+        console.log(`${doc}/addnew`, err)
+
+        responseFail = new ResponseFail("error", String(err))
+    }
+
+    res.status(400).end(responseFail.json());
+
+    return
+});
+
 module.exports = router;
