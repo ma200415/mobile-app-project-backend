@@ -75,6 +75,40 @@ router.post('/id', async (req, res, next) => {
     }
 })
 
+router.post('/craftid', async (req, res, next) => {
+    try {
+        const userPayload = auth.getBearerTokenPayload(req)
+
+        if (!userPayload.success) {
+            res.status(200).end(JSON.stringify(userPayload));
+            return
+        }
+
+        const match = {
+            userId: userPayload.user.payload._id,
+            craftId: req.body.craftId
+        }
+
+        let result = await dbMongo.findOne(doc, match);
+
+        if (!result) {
+            result = {}
+        }
+
+        res.status(200).end(JSON.stringify(result));
+
+        return
+    } catch (error) {
+        console.log(`${doc}/`, err)
+
+        const responseFail = new ResponseFail("error", error)
+
+        res.status(400).end(responseFail);
+
+        return
+    }
+})
+
 router.post('/add', async function (req, res, next) {
     let responseFail
 
@@ -137,24 +171,6 @@ router.post('/append', async function (req, res, next) {
 
     return
 });
-
-router.post('/id', async (req, res, next) => {
-    try {
-        const result = await dbMongo.findOne(doc, { _id: ObjectId(req.body.id) });
-
-        res.status(200).end(JSON.stringify(result));
-
-        return
-    } catch (error) {
-        console.log(`/${doc}/id`, error)
-
-        const responseFail = new ResponseFail("error", error)
-
-        res.status(400).end(responseFail);
-
-        return
-    }
-})
 
 router.post('/delete', async function (req, res, next) {
     try {
