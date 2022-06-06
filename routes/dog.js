@@ -20,8 +20,8 @@ router.post('/', async function (req, res, next) {
     try {
         const payload = {}
 
-        for (const property in req.body) {
-            const value = req.body[property]
+        for (const property in req.body[0]) {
+            const value = req.body[0][property]
 
             if (value != null && String(value).trim() !== "") {
                 payload[property] = property === "_id" ? (value.length === 24 && ObjectId(value)) : value
